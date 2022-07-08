@@ -179,9 +179,9 @@ fi
 echo; echo '安装完成！'
 echo '配置文件在 /etc/ddos/'
 echo
-echo '请将您的意见和/或建议发送至：'
+echo '请将您的建议发送至：'
 echo 'https://github.com/jgmdev/ddos-deflate/issues'
-echo '有关汉化意见和/或建议发送至：'
+echo '有关汉化建议发送至：'
 echo 'https://justmyblog.net/882.html'
 echo
 
