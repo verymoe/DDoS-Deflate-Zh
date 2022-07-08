@@ -58,12 +58,12 @@ sudo apt install grepcidr
 
 境外使用：
 ```shell
-wget https://github.com/ShiroSekai/DDoS-Deflate-Zh/archive/refs/heads/master.zip -O ddos.zip && unzip ddos.zip && cd ddos-deflate-zh-master && ./install.sh
+wget https://github.com/ShiroSekai/DDoS-Deflate-Zh/archive/refs/heads/master.zip -O ddos.zip && unzip ddos.zip && cd DDoS-Deflate-Zh-master && ./install.sh
 ```
 
 境内使用：
 ```shell
-wget https://jihulab.com/ShiroSekai/DDoS-Deflate-Zh/-/archive/master/DDoS-Deflate-Zh-master.zip -O ddos.zip && unzip ddos.zip && cd ddos-deflate-zh-master && ./install.sh
+wget https://jihulab.com/ShiroSekai/DDoS-Deflate-Zh/-/archive/master/DDoS-Deflate-Zh-master.zip -O ddos.zip && unzip ddos.zip && cd DDoS-Deflate-Zh-master && ./install.sh
 ```
 
 ## 卸载
