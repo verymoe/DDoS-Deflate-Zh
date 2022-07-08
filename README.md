@@ -71,7 +71,7 @@ wget https://jihulab.com/ShiroSekai/DDoS-Deflate-Zh/-/archive/master/DDoS-Deflat
 以 root 用户身份执行以下命令：
 
 ```shell
-cd ddos-deflate-zh-master && ./uninstall.sh
+cd DDoS-Deflate-Zh-master && ./uninstall.sh
 ```
 
 ## 使用方法
