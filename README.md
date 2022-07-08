@@ -1,53 +1,50 @@
 # DDoS Deflate
-Fork of DDoS Deflate on now inexistent http://deflate.medialayer.com/
-([MediaLayer went out of business](http://www.webhostingtalk.com/showthread.php?t=1494121&highlight=medialayer))
-with fixes, improvements and new features.
+此 DDoS Deflate 分支来自已经不存在的 http://deflate.medialayer.com/
+(见[MediaLayer倒闭](http://www.webhostingtalk.com/showthread.php?t=1494121&highlight=medialayer))
 
-**Original Author:** Zaf <zaf@vsnl.com> (Copyright (C) 2005)
+此分支在原来的基础上进行了修复、改进和新功能。
 
-**Maintainer:** Jefferson González <jgmdev@gmail.com>
+**原作者：** Zaf < zaf@vsnl.com > (版权所有 (C) 2005)
 
-**Contributor (BSD support):** Marc S. Brooks <devel@mbrooks.info>
+**维护者：** Jefferson González < jgmdev@gmail.com >
 
-## About
+**贡献者（BSD 支持）：** Marc S. Brooks < devel@mbrooks.info >
 
-(D)DoS Deflate is a lightweight bash shell script designed to assist in
-the process of blocking a denial of service attack. It utilizes the
-command below to create a list of IP addresses connected to the server,
-along with their total number of connections. It is one of the simplest
-and easiest to install solutions at the software level.
+**翻译者：** Shiro < shiro@332.email>
+
+## 关于
+
+(D)DoS Deflate 是一个轻量级的 bash shell 脚本，旨在帮助阻止DDOS拒绝服务攻击。它利用下面的命令创建连接到服务器的 IP 地址列表，以及他们的连接总数。它是最简单的一种并且最容易在软件级别安装解决方案。
 
 ss -Hntu | awk '{print $6}' | sort | uniq -c | sort -nr
 
-IP addresses with over a pre-configured number of connections are
-automatically blocked in the server's firewall, which can be direct
-ipfw, iptables, or Advanced Policy Firewall (APF).
+超过预配置连接数的 IP 地址会在服务器的防火墙中被自动阻止，该防火墙可以是 ipfw、iptables 或 高级策略防火墙 (APF)。
 
-### Notable Features
+### 程序特点
 
-* IPv6 support.
-* It is possible to whitelist IP addresses, via /etc/ddos/ignore.ip.list.
-* It is possible to whitelist hostnames, via /etc/ddos/ignore.host.list.
-* IP ranges and CIDR syntax is supported on /etc/ddos/ignore.ip.list
-* Simple configuration file: /etc/ddos/ddos.conf
-* IP addresses are automatically unblocked after a preconfigured time limit (default: 600 seconds)
-* The script can run as a cron job at chosen frequency via the configuration file (default: 1 minute)
-* The script can run as a daemon at chosen frequency via the configuration file (default: 5 seconds)
-* You can receive email alerts when IP addresses are blocked.
-* Control blocking by connection state (see man ss or man nestat).
-* Auto-detection of firewall.
-* Support for APF, CSF, ipfw, and iptables.
-* Logs events to /var/log/ddos.log
-* Can ban only incoming connections or by specific port rules.
-* Option to reduce transfer speed for IP addresses that reach certain limit using iftop and tc.
-* Uses tcpkill to reduce the amount of processes opened by attackers.
-* Cloudflare support by using tcpdump to get the real user ip and using iptables string matching to drop connections.
+* IPv6 支持。
+* 可以通过 /etc/ddos/ignore.ip.list 将IP地址列入白名单。
+* 可以通过 /etc/ddos/ignore.host.list 将主机名列入白名单。
+* /etc/ddos/ignore.ip.list 支持IP范围和CIDR语法
+* 简单的配置文件： /etc/ddos/ddos.conf _
+* IP 地址在预先配置的时间限制后自动解锁（默认：600 秒）
+* 该脚本可以通过配置文件以选定的频率作为cron作业运行（默认：1 分钟）
+* 脚本可以通过配置文件以选定的频率作为守护进程运行（默认：5 秒）
+* 当 IP 地址被阻止时，您可以收到电子邮件警报。
+* 通过连接状态控制阻塞（参见 man ss 或 man nestat ）。
+* 自动检测防火墙。
+* 支持 APF、CSF、 ipfw 和 iptables。
+* 将事件记录到 /var/log/ddos.log。
+* 只能禁止传入连接或按特定端口规则。
+* 使用 iftop 和 tc 降低达到特定限制的 IP 地址的传输速度的选项。
+* 使用 tcpkill 减少攻击者打开的进程数量。
+* Cloudflare 支持通过使用 tcpdump 获取真实用户ip并使用 iptables 字符串匹配来断开连接。
 
-## Dependencies
+## 依赖项
 
-The installation script has some support to automatically install the required dependencies but, it may fail to install some or all of them. You may want to manually install the required dependencies before proceeding to installation as listed below on the subsection of your linux distro.
+安装脚本支持自动安装所需的依赖项，但可能无法安装部分或全部。您可能希望在继续安装之前手动安装所需的依赖项，如下面列出的。
 
-## Ubuntu/Debian
+## Ubuntu/Debian安装依赖
 ```shell
 sudo apt install dnsutils
 sudo apt-get install net-tools
@@ -55,51 +52,46 @@ sudo apt-get install tcpdump
 sudo apt-get install dsniff -y
 sudo apt install grepcidr
 ```
-## Installation
+## 安装
 
-As root user execute the following commands:
+以 root 用户身份执行以下命令：
 
+境外使用：
 ```shell
-wget https://github.com/jgmdev/ddos-deflate/archive/master.zip -O ddos.zip
-unzip ddos.zip
-cd ddos-deflate-master
-./install.sh
+wget https://github.com/ShiroSekai/DDoS-Deflate-Zh/archive/refs/heads/master.zip -O ddos.zip && unzip ddos.zip && cd ddos-deflate-zh-master && ./install.sh
 ```
 
-## Uninstallation
-
-As root user execute the following commands:
-
+境内使用：
 ```shell
-cd ddos-deflate-master
-./uninstall.sh
+wget https://jihulab.com/ShiroSekai/DDoS-Deflate-Zh/-/archive/master/DDoS-Deflate-Zh-master.zip -O ddos.zip && unzip ddos.zip && cd ddos-deflate-zh-master && ./install.sh
 ```
 
-## Usage
+## 卸载
 
-The installer will automatically detect if your system supports
-init.d scripts, systemd services or cron jobs. If one of them is found
-it will install apropiate files and start the ddos script. In the
-case of init.d and systemd the ddos script is started as a daemon,
-which monitoring interval is set at 5 seconds by default. The daemon
-is much faster detecting attacks than the cron job since cron's are
-capped at 1 minute intervals.
+以 root 用户身份执行以下命令：
 
-Once you hava (D)Dos deflate installed proceed to modify the config
-files to fit your needs.
+```shell
+cd ddos-deflate-zh-master && ./uninstall.sh
+```
+
+## 使用方法
+
+安装程序将自动检测您的系统是否支持 init.d 脚本、systemd 服务或 cron 作业。 如果找到其中之一，它将安装 apropiate 文件并启动 ddos 脚本。 在 init.d 和 systemd 的情况下，ddos 脚本作为守护进程启动，默认情况下监控间隔设置为 5 秒。 守护进程检测攻击的速度比 cron 作业快得多，因为 cron 的间隔为 1 分钟。
+
+安装完 (D)Dos deflate 后，继续修改配置文件以满足您的需求。
 
 **/etc/ddos/ignore.host.list**
 
-On this file you can add a list of host names to be whitelisted, for
-example:
+在此文件中，您可以添加要列入白名单的主机名列表。
+例如:
 
 > googlebot.com <br />
 > my-dynamic-ip.somehost.com
 
 **/etc/ddos/ignore.ip.list**
 
-On this file you can add a list of ip addresses to be whitelisted, for
-example:
+在此文件中，您可以添加要列入白名单的IP列表。
+例如:
 
 > 12.43.63.13 <br />
 > 165.123.34.43-165.123.34.100 <br />
@@ -108,71 +100,70 @@ example:
 
 **/etc/ddos/ddos.conf**
 
-The behaviour of the ddos script is modified by this configuration file.
-For more details see **man ddos** which has documentation of the
-different configuration options.
+ddos 脚本的行为由该配置文件修改。
+有关更多详细信息，请参阅 **man ddos**，其中包含不同配置选项的文档。
 
-After you modify the config files you will need to restart the daemon.
-If running on systemd:
+修改配置文件后，您将需要重新启动守护程序。
+如果在 systemd 上运行：
 
 > systemctl restart ddos
 
-If running as classical init.d script:
+如果作为常规的 init.d 脚本运行：
 
 > /etc/init.d/ddos restart <br />
 > or <br />
 > service ddos restart
 
-When running the script as a cronjob no restarting is required.
+将脚本作为 cronjob 运行时，不需要重新启动。
 
-## CLI Usage
+## 命令行使用方法
 
-**ddos** [OPTIONS] [N]
+**ddos** [选项] [N]
 
-*N : number of tcp/udp  connections (default 150)*
+*N :  tcp / udp连接数（默认 150）*
 
-#### OPTIONS
+#### 选项
 
 **-h | --help:**
 
-   Show the help screen.
+   显示帮助.
 
 **-c | --cron:**
 
-   Create cron job to run the script regularly (default 1 mins).
+   创建cron作业以定期运行脚本（默认 1 分钟）。
 
 **-i | --ignore-list:**
 
-   List whitelisted ip addresses.
+   列出白名单中的IP地址。
 
 **-b | --bans-list:**
 
-   List currently banned ip addresses.
+   列出当前禁止的IP地址。
 
 **-u | --unban:**
 
-   Unbans a given ip address.
+   取消禁止指定的IP地址。
 
 **-d | --start:**
 
-   Initialize a daemon to monitor connections.
+   启动（初始化一个守护进程来监控连接。）
 
 **-s | --stop:**
 
-   Stop the daemon.
+   停止守护进程。
 
 **-t | --status:**
 
-   Show status of daemon and pid if currently running.
+   如果当前正在运行，则显示守护程序和pid的状态。.
 
 **-v[4|6] | --view [4|6]:**
 
-   Display active connections to the server.
+   显示与服务器的活动连接。
 
 **-y[4|6] | --view-port [4|6]:**
 
-   Display active connections to the server including the port.
+   显示与服务器的活动连接，包括端口。
 
 **-k | --kill:**
 
-   Block all ip addresses making more than N connections.
+   阻止所有超过 N 个连接的IP地址。

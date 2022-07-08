@@ -57,7 +57,7 @@ load_conf()
         . $CONF
     else
         ddos_head
-        echo "\$CONF not found."
+        echo "没有找到 \$CONF"
         exit 1
     fi
 }
@@ -66,29 +66,30 @@ ddos_head()
 {
     echo "DDoS-Deflate version 1.3"
     echo "Copyright (C) 2005, Zaf <zaf@vsnl.com>"
+    echo "由Shiro翻译 justmyblog.net"
     echo
 }
 
 showhelp()
 {
     ddos_head
-    echo 'Usage: ddos [OPTIONS] [N]'
-    echo 'N : number of tcp/udp connections (default '"$NO_OF_CONNECTIONS"')'
+    echo '使用方法: ddos [选项] [N]'
+    echo 'N : tcp/udp 连接数（默认为 '"$NO_OF_CONNECTIONS"'）'
     echo
-    echo 'OPTIONS:'
-    echo '-h      | --help: Show this help screen'
-    echo '-c      | --cron: Create cron job to run this script regularly (default 1 mins)'
-    echo '-i      | --ignore-list: List whitelisted ip addresses'
-    echo '-b      | --bans-list: List currently banned ip addresses.'
-    echo '-u      | --unban: Unbans a given ip address.'
-    echo '-d      | --start: Initialize a daemon to monitor connections'
-    echo '-s      | --stop: Stop the daemon'
-    echo '-t      | --status: Show status of daemon and pid if currently running'
-    echo '-v[4|6] | --view [4|6]: Display active connections to the server'
-    echo '-y[4|6] | --view-port [4|6]: Display active connections to the server including the port'
-    echo '-f      | --traffic-list: List bandwidth control rules.'
-    echo '-p      | --ports: List port blocking rules.'
-    echo '-k      | --kill: Block all ip addresses making more than N connections'
+    echo '选项:'
+    echo '-h      | --help: 显示帮助'
+    echo '-c      | --cron: 创建 cron 作业以定期运行此脚本（默认 1 分钟）'
+    echo '-i      | --ignore-list: 列出白名单中的IP地址'
+    echo '-b      | --bans-list: 列出当前禁止的IP地址'
+    echo '-u      | --unban: 取消禁止指定的IP地址'
+    echo '-d      | --start: 启动（初始化一个守护进程来监控连接）'
+    echo '-s      | --stop: 停止守护进程'
+    echo '-t      | --status: 如果当前正在运行，则显示守护程序和pid的状态'
+    echo '-v[4|6] | --view [4|6]: 显示与服务器的活动连接'
+    echo '-y[4|6] | --view-port [4|6]: 显示与服务器的活动连接，包括端口'
+    echo '-f      | --traffic-list: 列出带宽控制规则'
+    echo '-p      | --ports: 列出端口封禁规则'
+    echo '-k      | --kill: 阻止所有超过 N 个连接的IP地址'
 }
 
 # Check if super user is executing the
@@ -98,7 +99,7 @@ su_required()
     user_id=$(id -u)
 
     if [ "$user_id" != "0" ]; then
-        echo "You need super user priviliges for this."
+        echo "你需要root用户权限"
         exit
     fi
 }
@@ -298,8 +299,7 @@ add_to_cron()
 {
     su_required
 
-    echo "Warning: this feature is deprecated and ddos-deflate should" \
-         "be run on daemon mode instead."
+    echo "警告：此功能已弃用，应改为在守护程序模式下运行 ddos-deflate"
 
     if [ "$FREQ" -gt 59 ]; then
         FREQ=1
@@ -655,14 +655,14 @@ check_connections_cloudflare()
         rm -f "$BAD_IP_LIST"
 
         if [ "$KILL" -eq 1 ]; then
-            echo "No connections exceeding max allowed."
+            echo "没有连接超过最大限制"
         fi
 
         return 0
     fi
 
     if [ "$KILL" -eq 1 ]; then
-        echo "List of connections that exceed max allowed"
+        echo "超过最大连接数的IP列表"
         echo "==========================================="
         cat "$BAD_IP_LIST"
     fi
@@ -670,7 +670,7 @@ check_connections_cloudflare()
     BANNED_IP_MAIL=$($TMP_FILE)
     BANNED_IP_LIST=$($TMP_FILE)
 
-    echo "Banned the following ip addresses on $(date)" > "$BANNED_IP_MAIL"
+    echo "DDos Deflate：下列地址已被封禁 [$(date)]" > "$BANNED_IP_MAIL"
     echo >> "$BANNED_IP_MAIL"
 
     IP_BAN_NOW=0
@@ -685,7 +685,7 @@ check_connections_cloudflare()
 
         IP_BAN_NOW=1
 
-        echo "${CURR_LINE_IP} with $CURR_LINE_CONN connections" >> "$BANNED_IP_MAIL"
+        echo "${CURR_LINE_IP} 建立了 $CURR_LINE_CONN 个连接" >> "$BANNED_IP_MAIL"
         echo "${CURR_LINE_IP}" >> "$BANNED_IP_LIST"
 
         current_time=$(date +"%s")
@@ -706,7 +706,7 @@ check_connections_cloudflare()
 
         if [ "$KILL" -eq 1 ]; then
             echo "==========================================="
-            echo "Banned CloudFlare IP addresses:"
+            echo "禁止的 CloudFlare IP 地址:"
             echo "==========================================="
             cat "$BANNED_IP_LIST"
         fi
@@ -738,14 +738,14 @@ check_connections()
         rm -f "$BAD_IP_LIST"
 
         if [ "$KILL" -eq 1 ]; then
-            echo "No connections exceeding max allowed."
+            echo "没有连接超过最大连接数"
         fi
 
         return 0
     fi
 
     if [ "$KILL" -eq 1 ]; then
-        echo "List of connections that exceed max allowed"
+        echo "超过最大连接数的IP列表"
         echo "==========================================="
         cat "$BAD_IP_LIST"
     fi
@@ -753,7 +753,7 @@ check_connections()
     BANNED_IP_MAIL=$($TMP_FILE)
     BANNED_IP_LIST=$($TMP_FILE)
 
-    echo "Banned the following ip addresses on $(date)" > "$BANNED_IP_MAIL"
+    echo "DDos Deflate：下列地址已被封禁 [$(date)]" > "$BANNED_IP_MAIL"
     echo >> "$BANNED_IP_MAIL"
 
     IP_BAN_NOW=0
@@ -779,7 +779,7 @@ check_connections()
 
         IP_BAN_NOW=1
 
-        echo "${CURR_LINE_IP}${CURR_PORT} with $CURR_LINE_CONN connections" >> "$BANNED_IP_MAIL"
+        echo "${CURR_LINE_IP}${CURR_PORT} 建立了 $CURR_LINE_CONN 个连接" >> "$BANNED_IP_MAIL"
         echo "${CURR_LINE_IP}${CURR_PORT}" >> "$BANNED_IP_LIST"
 
         current_time=$(date +"%s")
@@ -804,7 +804,7 @@ check_connections()
 
         if [ "$KILL" -eq 1 ]; then
             echo "==========================================="
-            echo "Banned IP addresses:"
+            echo "封禁的IP地址列表:"
             echo "==========================================="
             cat "$BANNED_IP_LIST"
         fi
@@ -829,7 +829,7 @@ check_connections_bw()
     BANNED_IP_MAIL=$($TMP_FILE)
     BANNED_IP_LIST=$($TMP_FILE)
 
-    echo "Dropped transfer limit to following ip addresses on $(date)" > "$BANNED_IP_MAIL"
+    echo "DDoS Deflate：降低了以下 IP 地址的传输速率 [$(date)]" > "$BANNED_IP_MAIL"
     echo >> "$BANNED_IP_MAIL"
 
     ip_drop_rate=0
@@ -909,7 +909,7 @@ check_connections_bw()
 
         drop_rate_ip "$ip" "$prio_tc"
 
-        echo "$ip using $bandwidth/s of bandwidth" >> "$BANNED_IP_MAIL"
+        echo "$ip 占用了 $bandwidth/s 带宽" >> "$BANNED_IP_MAIL"
 
         current_time=$(date +"%s")
         echo "$((current_time+BANDWIDTH_DROP_PERIOD)) $ip $bandwidth $prio_tc" >> \
@@ -1070,7 +1070,7 @@ view_connections()
 
     if $ENABLE_CLOUDFLARE; then
         echo
-        echo "List of CloudFlare ip's."
+        echo "CloudFlare 的IP地址"
         echo "==================================="
         ban_cloudflare
     fi
@@ -1128,7 +1128,7 @@ view_connections_port()
 
 view_bans()
 {
-    echo "List of currently banned ip's."
+    echo "当前被禁止的IP列表。"
     echo "==================================="
 
     if [ -e "$BANS_IP_LIST" ]; then
@@ -1150,7 +1150,7 @@ view_bans()
 
     if $ENABLE_CLOUDFLARE; then
         echo
-        echo "List of banned CloudFlare ip's."
+        echo "被封禁的CloudFlare IP地址"
         echo "==================================="
         if [ -e "$BANS_CLOUDFLARE_IP_LIST" ]; then
             printf "% -5s %s\\n" "Exp." "IP"
@@ -1172,7 +1172,7 @@ view_bans()
 
 view_drops()
 {
-    echo "List of current traffic controls."
+    echo "当前被限制带宽的列表"
     echo "==========================================================="
 
     if [ -e "$BANS_BW_IP_LIST" ]; then
@@ -1249,11 +1249,11 @@ start_daemon()
     su_required
 
     if [ "$(daemon_running)" = "1" ]; then
-        echo "ddos daemon is already running..."
+        echo "ddos 守护进程已经在运行..."
         exit 0
     fi
 
-    echo "starting ddos daemon..."
+    echo "启动 ddos 守护进程..."
 
     if [ ! -e "$BANS_IP_LIST" ]; then
         touch "${BANS_IP_LIST}"
@@ -1277,11 +1277,11 @@ stop_daemon()
     su_required
 
     if [ "$(daemon_running)" = "0" ]; then
-        echo "ddos daemon is not running..."
+        echo "ddos 守护进程没有运行..."
         exit 0
     fi
 
-    echo "stopping ddos daemon..."
+    echo "停止 ddos 守护进程..."
 
     kill "$(daemon_pid)"
 
@@ -1307,7 +1307,7 @@ daemon_loop()
     trap 'on_daemon_exit' TERM
     trap 'on_daemon_exit' EXIT
 
-    echo "Detecting firewall..."
+    echo "检测防火墙..."
     detect_firewall
 
     start_bandwidth_control
@@ -1320,18 +1320,18 @@ daemon_loop()
     fi
 
     if $ENABLE_PORTS; then
-        echo "Ban by port rules selected. Port rules: [$PORT_CONNECTIONS]"
+        echo "按端口规则禁止。 端口规则：[$PORT_CONNECTIONS]"
     elif $ONLY_INCOMING; then
-        echo "Ban only incoming connections that exceed $NO_OF_CONNECTIONS"
+        echo "仅禁止连接数超过 $NO_OF_CONNECTIONS 的传入连接"
     else
-        echo "Ban in/out connections that combined exceed $NO_OF_CONNECTIONS"
+        echo "禁止连接数超过 $NO_OF_CONNECTIONS 的出/入连接"
     fi
 
     # run unban and undrop lists after 10 seconds of initialization
     ban_check_timer=$(date +"%s")
     ban_check_timer=$((ban_check_timer+10))
 
-    echo "Monitoring connections!"
+    echo "监控连接中！"
     while true; do
         check_connections
         check_connections_bw
@@ -1363,9 +1363,9 @@ daemon_status()
     current_pid=$(daemon_pid)
 
     if [ "$(daemon_running)" = "1" ]; then
-        echo "ddos status: running with pid $current_pid"
+        echo "ddos 状态：以 pid $current_pid 运行"
     else
-        echo "ddos status: not running"
+        echo "ddos 状态：没有运行"
     fi
 }
 
@@ -1398,7 +1398,7 @@ detect_firewall()
             FIREWALL="iptables"
             IPT="iptables"
         else
-            echo "error: No valid firewall found."
+            echo "错误：没有找到有效的防火墙。"
             log_msg "error: no valid firewall found"
             exit 1
         fi
@@ -1427,9 +1427,9 @@ detect_interfaces()
 start_bandwidth_control()
 {
     if $BANDWIDTH_CONTROL; then
-        echo "Initializing bandwidth control..."
+        echo "正在初始化带宽控制..."
 
-        echo "Detecting network interfaces..."
+        echo "正在检测网络接口..."
         detect_interfaces
 
         # Load right amount of needed virtual interfaces
@@ -1488,7 +1488,7 @@ stop_bandwidth_control()
     if $BANDWIDTH_CONTROL; then
         ifcount=0
         for interface in $BANDWIDTH_INTERFACES; do
-            echo "Disabling bandwidth control on: $interface..."
+            echo "禁用带宽控制：$interface..."
 
             $TC qdisc del dev "$interface" root 2>/dev/null
             $TC qdisc del dev "$interface" ingress 2>/dev/null
@@ -1576,7 +1576,7 @@ while [ "$1" ]; do
             exit
             ;;
         '--ignore-list' | '-i' )
-            echo "List of currently whitelisted ip's."
+            echo "当前列入白名单的 ip 列表"
             echo "==================================="
             ignore_list
             exit
@@ -1595,7 +1595,7 @@ while [ "$1" ]; do
             detect_firewall
 
             if ! unban_ip "$1"; then
-                echo "Please specify a valid ip address."
+                echo "请指定一个有效的 IP 地址"
             elif $ENABLE_CLOUDFLARE; then
                 unban_ip_cloudflare "$1"
             fi
